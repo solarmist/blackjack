@@ -1,6 +1,6 @@
 {AP Computer Science A Final Project 06/03/1998}
 program BlackjackGame(input, output);
-uses crt, graph, cards;
+uses crt,graph, cards;
 
 const
    BGI = 'c:\tp\bgi';

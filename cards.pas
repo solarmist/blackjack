@@ -3,18 +3,20 @@
 unit Cards;
 
 interface
-uses Graph;
 
 type
    SuitType = (Hearts, Diamonds, Clubs, Spades);
    SuitNum  = array [1..13] of boolean;
    DeckType = array [Hearts..Spades] of SuitNum;
 
-procedure DrawHand(var Deck: DeckType, y: integer);
+procedure Hit(var Deck,Deal: DeckType; var NumCards: integer);
+{Pre: A deck is passed
+Post: A card is added to your hand and NumCards is + 1}
+{------------------}
+procedure DrawHand(var Deck: DeckType; y: integer);
 {Pre: Y is set correctly and a valid deck is passed
 Post: one's hand is drawn on the screen}
-{------------------}
-procedure DrawCard(x,y: integer, var CType: SuitType, num: integer);
+procedure DrawCard(x,y: integer; var CType: SuitType; num: integer);
 {Pre: (x,y)
 Post: A card is drawn}
 {------------------}
@@ -42,17 +44,14 @@ function RandSuit:SuitType;
 {Pre: none
 Post: A random suit is returned.}
 {------------------}
-procedure InitDeck(var Deck :DeckType);
+procedure InitDeck(var Deck: DeckType);
 {Pre: A deck is passed
 Post: An unused deck is returned}
 {------------------}
-function Total(var Deck :DeckType);
+function Total(var Deck: DeckType):integer;
 {Pre: A single hand is in the deck
 Post: The total of the cards is returned}
 {------------------}
-procedure Hit(var Deck,Deal : DeckType, var NumCards:integer;
-{Pre: A deck is passed
-Post: A card is added to your hand and NumCards is + 1}
 
 implementation
 {-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-}
@@ -66,8 +65,8 @@ var
 begin
   for suit:= hearts to spades do
     for i:= 1 to 13 do
-      Deck[Suit, i]:= false
-end
+      Deck[Suit, i]:= false;
+end;
 {----------------------------------}
 
 procedure Hit(var Deck,Deal: DeckType; var NumCards: integer);
@@ -90,7 +89,7 @@ if NumCards < 5
 end;
 {----------------------------------}
 
-function Total(var Deck: DeckType);
+function Total(var Deck: DeckType):integer;
 {Pre: A single hand is in the deck
 Post: The total of the cards is returned}
 var
@@ -118,8 +117,7 @@ begin
     end; {for}
     while (Temp > 21) and (Aces > 0) do
       Temp:= Temp - 10;
-    Total:= temp;
-  end;
+  Total:= temp;
 end;
 {----------------------------------}
 
@@ -135,7 +133,7 @@ begin
     2:  RandSuit:= Clubs;
     3:  RandSuit:= Spades;
   end;
-end
+end;
 {----------------------------------}
 
 function CardNum(num: integer): String;
@@ -199,7 +197,7 @@ begin
   fillEllipse(x+7, y+5, 7, 7);
   fillEllipse(x, y-6, 7, 7);
   fillEllipse(x-7, y+5, 7, 7);
-end
+end;
 {----------------------------------}
 
 procedure DrawHeart(x,y:integer);
