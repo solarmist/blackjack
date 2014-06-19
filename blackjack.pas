@@ -1,6 +1,7 @@
 {AP Computer Science A Final Project 06/03/1998}
+{ http://wiki.freepascal.org/FPC_and_SDL#Mac_OS_X_specific_issues }
 program BlackjackGame(input, output);
-uses crt,graph, cards;
+uses CRT, Graph, cards;
 
 const
    BGI = 'c:\tp\bgi';
@@ -23,7 +24,7 @@ var
    Choice: char;
    Score: ScoreType;
 {=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=}
-function IntToStr(I :  LongInt): String;
+function IntToStr(I: LongInt): String;
 {Convert any integer type to a string}
 var
    S :  string[11];
@@ -34,13 +35,13 @@ end;
 
 {------------------------------------}
 
-function StrToInt(S :  String):LongInt;
+function StrToInt(S: String):LongInt;
 {Convert any String type to a longint}
 var
    Code : Integer;
    temp : LongInt;
 begin
-   Val(S, temp, Code):
+   Val(S, temp, Code);
    if code <> 0 then begin
       OutTextXY(150,150,'Error at position: ');
       OutTextXY(330, 150, IntToStr(Code));
@@ -52,7 +53,7 @@ end;
 
 {------------------------------------}
 
-Procedure Bust(y : Integer);
+procedure Bust(y : Integer);
 {Pre: The player busted.
 Post: Bust}
 begin
@@ -60,14 +61,14 @@ begin
    SetTextStyle(DefaultFont, HorizDir, 19);
    outtextXY(32, y, 'BUST');
    {Reset to normal settings}
-   SetColor(White):
+   SetColor(White);
    SetTextStyle(DefaultFont, HorizDir, 1);
    readkey;
 end;
 
 {------------------------------------}
 
-Procedure Lose;
+procedure Lose;
 {Pre: The Player Lost;
 Post: LOSE}
 begin
@@ -75,14 +76,14 @@ begin
    SetTextStyle(DefaultFont, HorizDir, 19);
    outtextXY(32, 140, 'LOSE');
    {Reset to normal settings}
-   SetColor(White):
+   SetColor(White);
    SetTextStyle(DefaultFont, HorizDir, 1);
    readkey;
 end;
 
 {------------------------------------}
 
-Procedure Tie
+procedure Tie;
 {Pre: The Player Tied
 Post: TIE}
 begin
@@ -90,14 +91,14 @@ begin
    SetTextStyle(DefaultFont, HorizDir, 22);
    outtextXY(32, 140, 'Tie');
    {Reset to normal settings}
-   SetColor(White):
+   SetColor(White);
    SetTextStyle(DefaultFont, HorizDir, 1);
    readkey;
 end;
 
 {------------------------------------}
 
-Procedure Win
+procedure Win;
 {Pre: The Player Won
 Post: Win}
 begin
@@ -105,14 +106,13 @@ begin
    SetTextStyle(DefaultFont, HorizDir, 22);
    outtextXY(32, 140, 'Win');
    {Reset to normal settings}
-   SetColor(White):
+   SetColor(White);
    SetTextStyle(DefaultFont, HorizDir, 1);
    readkey;
 end;
-
 {------------------------------------}
 
-Procedure Charlie
+procedure Charlie;
 {Pre: The Player got 5-card Charlie
 Post: TIE}
 begin
@@ -122,13 +122,13 @@ begin
    SetTextStyle(DefaultFont, HorizDir, 10);
    outtextXY(32, 280, 'Charlie');
    {Reset to normal settings}
-   SetColor(White):
+   SetColor(White);
    SetTextStyle(DefaultFont, HorizDir, 1);
    readkey;
 end;
-
 {------------------------------------}
-Procedure BlackJack
+
+procedure BlackJack;
 {Pre: The Player got blackjack
 Post: BlackJack}
 begin
@@ -136,14 +136,13 @@ begin
    SetTextStyle(DefaultFont, HorizDir, 8);
    outtextXY(32, 140, 'BlackJack');
    {Reset to normal settings}
-   SetColor(White):
+   SetColor(White);
    SetTextStyle(DefaultFont, HorizDir, 1);
    readkey;
 end;
-
 {------------------------------------}
 
-Procedure ShowTable(YourHand :  boolean);
+procedure ShowTable(YourHand :  boolean);
 {Pre: True if you're showing your hand; false if it's the dealers hand
 Post: A blackjack table is shown}
 var
@@ -167,10 +166,10 @@ begin {ShowTable}
       then Bust(30);
    if Total(DealerDeck) > 21
       then Bust(230);
-
+end;
 {------------------------------------}
 
-Procedure BJDealer(var DealerDeck, YourDeck : DeckType;
+procedure BJDealer(var DealerDeck, YourDeck : DeckType;
                        choice               :  char);
 {Pre: The Decks have been filled at least partially
 Post: The dealer's hand will have been filled}
@@ -186,7 +185,7 @@ end;
 
 {------------------------------------}
 
-procedure EnterName(var Name : string);
+procedure EnterName(var Name: string);
 {Pre:
 Post: Name is set}
 var
@@ -207,17 +206,17 @@ begin
       if (ch in [' ', 'a'..'z','A'..'Z'])
          then begin
             Name:= Name + ch;
-            OutTextXY(165,40,Name);
-         end;
+            OutTextXY(165, 40, Name);
+         end
       else if (ch = #8) and (i >= 2)
          then begin
             i := i - 2;
-            Name := Copy(Nmae, 1, i);
+            Name := Copy(Name, 1, i);
             ClearDevice;
             OutTextXY(40,40, 'Enter Name: ');
             OutTextXY(165,40, Name);
          end;
-   until not (ch in ['', 'a'..'z', 'A'..'Z', #8]);
+   until not (ch in [' ', 'a'..'z', 'A'..'Z', #8]);
    SetTextStyle(DefaultFont, HorizDir, 1);
    ClearDevice;
 end;
@@ -247,18 +246,18 @@ begin
       if (ch in ['0'..'9'])
          then begin
             temp:= temp + ch;
-            OutTextXY(140,40,Name);
-         end;
+            OutTextXY(140, 40, temp);
+         end
       else if (ch = #8) and (i >= 2)
          then begin
             i := i - 2;
-            Name := Copy(Nmae, 1, i);
+            temp := Copy(temp, 1, i);
             ClearDevice;
             OutTextXY(20,0, IntToStr(Money));
             OutTextXY(40,40, 'Enter Bet: ');
             OutTextXY(140,40, temp);
          end;
-   until (i >= 11)o r not (ch in ['0'..'9', #8]);
+   until (i >= 11) or not (ch in ['0'..'9', #8]);
    Bet:= StrToInt(temp);
    SetTextStyle(DefaultFont, HorizDir, 1);
    ClearDevice;
@@ -357,10 +356,10 @@ var
    temp   : ScoreType;
 
 begin
-   temp.money = 0;
+   temp.money:= 0;
    Assign(TopTen, DatFile);
    {$I-}
-   Reset(TopTem);
+   Reset(TopTen);
    if (IOResult = 0)
       then begin
          while not EOF(TopTen) do
@@ -376,10 +375,11 @@ end;
 begin {Main}
    Gd := Detect;
    InitGraph(Gd,Gm,BGI);
-   if GraphResult <> grOk;
-   then Halt(1);
+   if GraphResult <> grOk
+      then Halt(1);
 
    Randomize;
+   BestScore:= 0;
 
    while not KeyPressed do begin
       cleardevice;
@@ -449,7 +449,7 @@ begin {Main}
                   then choice:= 'B';
 
             until (choice in ['S', 'Q', 'N', 'B', 'D']) or (CardTotal > 21)
-            or (NumCard = 5);
+            or (NumCards = 5);
 
             BJDealer(DealerDeck, YourDeck, Choice);
             DTotal:= Total(DealerDeck);
@@ -466,24 +466,32 @@ begin {Main}
                         else begin
                            Money:= Money + Round(Bet * 2.5) + Bet;
                            choice:= 'x';
-                           Tie;
+                           BlackJack;
                         end;
-                  {will Round to nearest dollar}
+                     {will Round to nearest dollar}
                   if (NumCards = 5) and (CardTotal <= 21) and (choice <> 'x')
                      then begin
-                        Money:= Money + Bet;
+                        Money:= Money + 3 * Bet;
                         choice:= 'x';
-                        Tie;
+                        Charlie;
                      end;
-                  if (CardTotal > DTotal) and (choice <> 'x')
+                  if DTotal <= 21
                      then begin
+                        if (CardTotal = DTotal) and (choice <> 'x')
+                           then begin
+                              Money:= Money + Bet;
+                              choice:= 'x';
+                              Tie;
+                           end;
+                        if (CardTotal > DTotal) and (choice <> 'x')
+                           then begin
+                              Money:= Money + 2 * bet;
+                              Win;
+                           end;
+                     end
+                     else
                         Money:= Money + 2 * bet;
-                        Win;
-                     end;
-                  end
-                  else
-                     Money:= Money + 2 * bet;
-            end;
+                 end;
 
             if (choice = 'B') or ((DTotal <= 21) and (CardTotal < DTotal) and
                                   (NumCards < 5))
@@ -503,5 +511,4 @@ begin {Main}
    until Quit;
    closeGraph;
    TopTen;
-
 end.

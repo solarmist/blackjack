@@ -3,6 +3,7 @@
 unit Cards;
 
 interface
+uses Graph;
 
 type
    SuitType = (Hearts, Diamonds, Clubs, Spades);
@@ -250,7 +251,7 @@ begin
   line(x, y+25, x+15, y-4);
   line(x, y+25, x+16, y);
   line(x+6, y+15, x+12, y+4);
-end
+end;
 {----------------------------------}
 
 procedure DrawDiamond(x,y:integer);
@@ -260,7 +261,7 @@ var
   Diamond: array[1..4] of PointType;
   OldPattern:FillPatternType;
 begin
-  y:= y + 4
+  y:= y + 4;
 
   GetFillPattern(OldPattern);
   SetFillPattern(OldPattern, Red);
@@ -282,7 +283,7 @@ begin
 
   fillPoly(4, Diamond);
 
-end
+end;
 {----------------------------------}
 
 procedure DrawSpade(x,y:integer);
@@ -356,10 +357,10 @@ begin
   line(x-2, y+6, x+2, y+6);
   line(x-1, y+4, x+1, y+5);
   line(x-1, y+4, x+1, y+4);
-end
+end;
 {----------------------------------}
 
-procedure DrawCard(x,y: integer, var CType: SuitType, num: integer);
+procedure DrawCard(x,y: integer; var CType: SuitType; num: integer);
 {Pre: (x,y)
 Post: A card is drawn}
 begin
@@ -374,7 +375,7 @@ begin
   Arc(x, y, 90, 180, 10);
   Arc(x+100, y, 0, 90, 10);
   Arc(x+100, y+150, 270, 0, 10);
-  Arc(x, y+150, 180, 270, 10)
+  Arc(x, y+150, 180, 270, 10);
 
   line(x, y-10, x+100, y-10);
   line(x-10, y, x-10, y+150);
@@ -388,26 +389,25 @@ begin
     Diamonds:  DrawDiamond(x+50, y+65);
     Spades:  DrawSpade(x+50, y+65);
   end;
-end
+end;
 {----------------------------------}
 
-procedure DrawHand(var Deck: DeckType, y: integer);
+procedure DrawHand(var Deck: DeckType; y: integer);
 {Pre: Y is set correctly and a valid deck is passed
 Post: one's hand is drawn on the screen}
 var
   Num,x: integer;
-  Suit: SuitType;
+  temp, Suit: SuitType;
 begin
   x:= 20;
   for Num:= 1 to 13 do
     for Suit:= Hearts to Spades do
-      If Deck[Suit, Num] = true
+      if Deck[Suit, Num] = true
         then begin
-          DrawCard(x, y, Suit, Num);
+          temp:= Suit;
+          DrawCard(x, y, temp, Num);
           x:= x + 125;
         end;
-    end;
-  end;
 end;
 
 end.{CardUnit}
